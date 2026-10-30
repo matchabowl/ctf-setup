@@ -10,7 +10,7 @@ CONDA="$CONDA_DIR/bin/conda"
 # Install Miniforge. Batch mode (-b) leaves the shell config alone.
 if [ ! -x "$CONDA" ]; then
     echo "Installing Miniforge..."
-    installer="$(mktemp)"
+    installer="$(mktemp --suffix=.sh)"
     trap 'rm -f "$installer"' EXIT
     curl -fsSL -o "$installer" \
         "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
@@ -30,7 +30,7 @@ else
 fi
 
 # Add the ctf command to new terminals
-if ! grep -qF "ctf/setup/ctf.sh" "$HOME/.bashrc"; then
+if ! grep -qF "$REPO_DIR/ctf.sh" "$HOME/.bashrc"; then
     echo "source \"$REPO_DIR/ctf.sh\"" >> "$HOME/.bashrc"
 fi
 
